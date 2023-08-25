@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">AppFilmesCompose</string>
+    <string name="description">Imagem filmes</string>
+    <string name="tituloAppBar">Filmes Populares</string>
+</resources>

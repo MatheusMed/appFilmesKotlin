@@ -34,6 +34,7 @@ import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import coil.compose.SubcomposeAsyncImage
 import com.mmdvs.appfilmescompose.R
 import com.mmdvs.appfilmescompose.api.HttpHelper
@@ -43,7 +44,9 @@ import kotlinx.coroutines.launch
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ListaCustom() {
+fun ListaCustom(
+  navController: NavController
+) {
   var items by remember { mutableStateOf(emptyList<FilmesModel>()) }
   var isLoading by remember { mutableStateOf(true) }
   val coroutineScope = rememberCoroutineScope()
@@ -88,6 +91,9 @@ fun ListaCustom() {
       }
     },
     content = {
+
+
+
       if (isLoading) {
         CircularProgressIndicator(
           modifier = Modifier
@@ -98,9 +104,10 @@ fun ListaCustom() {
       } else {
         LazyColumn(
           modifier = Modifier.fillMaxSize()
+
         ) {
           items(items) { item ->
-            ListItem(item = item)
+            ListItem(item = item, navController = navController,)
           }
         }
       }
@@ -112,7 +119,7 @@ fun ListaCustom() {
 
 
 @Composable
-fun ListItem(item: FilmesModel) {
+fun ListItem(item: FilmesModel, navController: NavController) {
   val image = HttpHelper.BASE_ULR_IMAGE + "w1280" +item.backdrop_path
 
   val coroutineScope = rememberCoroutineScope()
@@ -121,27 +128,27 @@ fun ListItem(item: FilmesModel) {
 
   Column(
     Modifier.clickable {
-
+      navController.navigate("DetailScreen/${item.id}")
     }
   ) {
 
     Text(
       text = item.title,
-      modifier = Modifier.padding(16.dp)
+      modifier = Modifier.padding(start = 10.dp),
     )
     SubcomposeAsyncImage(
       model = image,
       loading = {
         CircularProgressIndicator(
           modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
+            .padding(start = 6.dp,end = 6.dp)
             .wrapContentSize(Alignment.Center)
         )
       },
+
       modifier = Modifier
         .fillMaxSize()
-        .padding(16.dp),
+        .padding(start = 10.dp,end = 10.dp,bottom=10.dp, top = 2.dp),
       filterQuality = FilterQuality.High,
       contentDescription = stringResource(R.string.description)
     )

@@ -1,4 +1,4 @@
-package com.mmdvs.appfilmescompose.models
+package com.mmdvs.appfilmescompose.models.FilmesModels
 
 data class ProductionCompany(
     val id: Int,

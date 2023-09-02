@@ -2,4 +2,6 @@
     <string name="app_name">Filmes Populares</string>
     <string name="description">Imagem filmes</string>
     <string name="tituloAppBar">Filmes Populares</string>
+    <string name="SeriesImage">Imagem Series</string>
+    <string name="tituloAppSeries">Series</string>
 </resources>

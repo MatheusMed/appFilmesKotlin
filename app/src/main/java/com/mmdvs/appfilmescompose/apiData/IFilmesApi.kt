@@ -1,8 +1,8 @@
 package com.mmdvs.appfilmescompose.apiData
 
 import com.mmdvs.appfilmescompose.api.HttpHelper
-import com.mmdvs.appfilmescompose.models.DetalheFilme
-import com.mmdvs.appfilmescompose.models.FilmeResposta
+import com.mmdvs.appfilmescompose.models.FilmesModels.DetalheFilme
+import com.mmdvs.appfilmescompose.models.FilmesModels.FilmeResposta
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path

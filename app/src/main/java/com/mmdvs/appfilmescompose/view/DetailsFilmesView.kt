@@ -8,13 +8,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowBack
-import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -24,7 +21,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -32,23 +28,20 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
-import coil.compose.SubcomposeAsyncImage
-import com.mmdvs.appfilmescompose.R
 import com.mmdvs.appfilmescompose.api.HttpHelper
-import com.mmdvs.appfilmescompose.models.DetalheFilme
-import com.mmdvs.appfilmescompose.models.FilmesModel
+import com.mmdvs.appfilmescompose.apiData.IFilmesApi
+import com.mmdvs.appfilmescompose.models.FilmesModels.DetalheFilme
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.Response
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "CoroutineCreationDuringComposition")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetalhesFilmeView(
@@ -66,22 +59,19 @@ navController: NavController,
 
  val apiService by lazy { HttpHelper.apiFilmes}
 
- LaunchedEffect(Unit) {
-  coroutineScope.launch {
-   try {
-    Log.i("info_id",movieId.toString())
-     fetchedItems = apiService.getDetalheFilmes(movieId)
-    item = fetchedItems?.body()!!
 
+ CoroutineScope(Dispatchers.IO).launch{
+   fetchedItems = getDetalheFilmes(movieId,apiService)
 
-   } catch (e: Exception) {
-    e.printStackTrace()
-    Log.e("Erro", e.message.toString())
-   } finally {
-    isLoading = false
+   if(fetchedItems != null){
+    if(fetchedItems!!.isSuccessful){
+      item = fetchedItems!!.body()
+      isLoading = false
+    }
    }
-  }
  }
+
+
 
 
 
@@ -131,7 +121,7 @@ navController: NavController,
       AsyncImage(
        model = model,
        contentDescription = "",
-       modifier = Modifier.padding(end = 5.dp,start = 5.dp,top=10.dp),
+       modifier = Modifier.padding(end = 5.dp,start = 5.dp,top=40.dp),
        filterQuality = FilterQuality.High,
 
       )
@@ -172,5 +162,21 @@ navController: NavController,
    Toast.makeText(context,"Erro ao trazer o Detalhe do Filme",Toast.LENGTH_SHORT).show()
  }
 
-
 }
+
+
+suspend fun getDetalheFilmes(movieId: Int, apiService:IFilmesApi) :Response<DetalheFilme> {
+ var fetchedItems: Response<DetalheFilme>? = null
+ try {
+  Log.i("info_id", movieId.toString())
+   fetchedItems = apiService.getDetalheFilmes(movieId)
+
+ } catch (e: Exception) {
+  e.printStackTrace()
+  Log.e("Erro", e.message.toString())
+ }
+ return fetchedItems!!
+}
+
+
+

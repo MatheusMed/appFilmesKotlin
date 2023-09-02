@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -12,7 +14,7 @@ android {
         minSdk = 24
         targetSdk = 33
         versionCode = 2
-        versionName = "2.0"
+        versionName = "2.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -51,7 +53,13 @@ android {
 }
 
 dependencies {
+    val roomVersion = "2.4.1"
+    //ROOM
+    implementation("androidx.room:room-runtime:$roomVersion")
+    annotationProcessor("androidx.room:room-compiler:$roomVersion")
+    implementation("androidx.room:room-ktx:$roomVersion")
 
+    // < -------------------- >
 
     implementation ("androidx.compose.material3:material3:1.0.1")
     // http lib

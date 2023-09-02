@@ -1,4 +1,4 @@
-package com.mmdvs.appfilmescompose.models
+package com.mmdvs.appfilmescompose.models.SeriesModels
 
 data class Genre(
     val id: Int,

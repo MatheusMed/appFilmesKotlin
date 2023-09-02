@@ -1,4 +1,4 @@
-package com.mmdvs.appfilmescompose.models
+package com.mmdvs.appfilmescompose.models.FilmesModels
 
 data class SpokenLanguage(
     val english_name: String,

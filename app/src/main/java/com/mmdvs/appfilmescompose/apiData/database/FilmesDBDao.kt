@@ -5,13 +5,14 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import com.mmdvs.appfilmescompose.models.FilmesModels.FilmesModel
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface FilmesDBDao {
-  @Query("SELECT * FROM filmesModel")
-  suspend fun getAll(): List<FilmesModel>
+  @Query("SELECT * FROM filmes")
+  suspend fun getAll(): Flow<List<FilmesModel>>
 
-  @Query("SELECT * FROM filmesModel WHERE id IN (:id)")
+  @Query("SELECT * FROM filmes WHERE id IN (:id)")
   suspend fun loadAllByIds(id: IntArray): List<FilmesModel>
 
   @Insert

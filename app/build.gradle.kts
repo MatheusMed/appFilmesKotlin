@@ -1,4 +1,3 @@
-import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
 
 plugins {
     id("com.android.application")
@@ -54,10 +53,15 @@ android {
 
 dependencies {
     val roomVersion = "2.4.1"
+    val lifecycle_version = "2.5.0-alpha02"
+    val arch_version = "2.1.0"
     //ROOM
     implementation("androidx.room:room-runtime:$roomVersion")
     annotationProcessor("androidx.room:room-compiler:$roomVersion")
     implementation("androidx.room:room-ktx:$roomVersion")
+
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")
+    annotationProcessor("androidx.lifecycle:lifecycle-compiler:$lifecycle_version")
 
     // < -------------------- >
 

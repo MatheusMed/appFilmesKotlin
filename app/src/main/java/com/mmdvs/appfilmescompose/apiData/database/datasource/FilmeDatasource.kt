@@ -3,6 +3,7 @@ package com.mmdvs.appfilmescompose.apiData.database.datasource
 import com.mmdvs.appfilmescompose.apiData.database.FilmesDBDao
 import com.mmdvs.appfilmescompose.apiData.database.repository.FilmeRepository
 import com.mmdvs.appfilmescompose.models.FilmesModels.FilmesModel
+import kotlinx.coroutines.flow.Flow
 
 class FilmeDatasource(
   private  val filmesDBDao: FilmesDBDao,
@@ -11,7 +12,7 @@ class FilmeDatasource(
     filmesDBDao.insertAll(filme)
   }
 
-  override suspend fun getAllFilmes(): List<FilmesModel> {
+  override suspend fun getAllFilmes(): Flow<List<FilmesModel>> {
     return filmesDBDao.getAll()
   }
 }

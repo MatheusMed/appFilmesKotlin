@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 
-@Entity
+@Entity(tableName = "filmes")
 data class FilmesModel(
     val adult: Boolean?,
     val backdrop_path: String?,
